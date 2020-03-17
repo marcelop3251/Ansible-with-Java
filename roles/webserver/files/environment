@@ -1,0 +1,6 @@
+export DATABASE_JDBC_URL=jdbc:postgresql://172.17.177.42:5432/register-service
+export DATABASE_USER_NAME=register
+export DATABASE_PASSOWORD=register
+export DATABASE_PORT=5432
+export DATABASE_DRIVER=org.postgresql.Driver
+export POOL=10

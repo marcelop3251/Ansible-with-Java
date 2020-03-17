@@ -1,0 +1,7 @@
+---
+db_database_name: register-service
+db_name: register
+db_user: register
+db_password: register
+listen_addresses: 0.0.0.0
+address: 0.0.0.0/0

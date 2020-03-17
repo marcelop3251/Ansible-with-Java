@@ -1,0 +1,42 @@
+---    
+- name: 'add open jdk repository'
+  apt_repository:
+    repo: 'ppa:openjdk-r/ppa'
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: 'Install open jkds'
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - openjdk-8-jdk        
+
+- name: 'Copy jar for folder opt'
+  copy:
+    src: 'service/register-1.0-SNAPSHOT.jar'
+    dest: "{{ installation_dir }}/register-1.0-SNAPSHOT.jar"
+  become: yes
+
+- name: 'Copy file environment'
+  copy:
+    src: 'service/environment'
+    dest: "{{ installation_dir }}/environment"
+  become: yes      
+
+- name: 'Copy script for folder of boot init.d'
+  copy:
+    src: 'service/register-service'
+    dest: '/etc/init.d/register-service'
+    mode: 0755
+  become: yes
+
+- name: 'Config the system startup ro run script'
+  shell: 'update-rc.d register-service defaults'
+  become: yes
+
+- name: 'Restarted machine'
+  become: yes
+  shell: 'reboot'

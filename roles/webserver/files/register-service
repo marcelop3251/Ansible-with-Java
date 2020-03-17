@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# /etc/init.d/register-service
+ 
+case "$1" in
+    start)
+        echo "Iniciando serviço...."
+        source /opt/environment
+        /usr/bin/java -jar /opt/register-1.0-SNAPSHOT.jar
+        ;;
+ 
+    stop)
+        echo "Parando serviço..."
+        # comando para parar o serviço
+        ;;
+ 
+    restart)
+        echo "Reiniciando serviço..."
+        # comando para reiniciar o serviço
+        ;;
+ 
+    *)
+        echo "Operação inválida"
+        ;;
+esac

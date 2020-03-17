@@ -1,0 +1,56 @@
+---
+- name: 'Instala pacotes de dependia do postgres'
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - postgresql
+    - python-psycopg2
+    - postgresql-contrib
+    - libpq-dev
+    - postgresql-client
+
+- name: 'Copy of configurations initial pg_hba.conf'
+  template:
+    src: 'templates/pg_hba.conf.j2'
+    dest: '/etc/postgresql/9.3/main/pg_hba.conf'
+  become: yes
+  notify:
+    - restart postgres
+
+- name: 'Copy of configurations initial postgresql.conf'
+  template:
+    src: 'templates/postgresql.conf.j2'
+    dest: '/etc/postgresql/9.3/main/postgresql.conf'
+  become: yes
+  notify:
+    - restart postgres
+  
+- name: Ensure the PostgreSQL service is running
+  service:
+    name: postgresql
+    state: started 
+    enabled: yes 
+  become: yes
+        
+- name: 'Create database register-service'
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: "{{ db_database_name }}"
+    encoding: 'UTF-8'
+    lc_collate: 'en_US.UTF-8'
+    lc_ctype: 'en_US.UTF-8'
+    template: 'template0'
+    state: present
+
+- name: 'Add user fot database'
+  become_user: postgres
+  become: yes
+  postgresql_user:
+    db: "{{ db_database_name }}"
+    name: "{{ db_name }}"
+    password: "{{ db_password }}" 
+    priv: ALL
+    state: present  

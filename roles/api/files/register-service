@@ -4,24 +4,24 @@
  
 case "$1" in
     start)
-        echo "Iniciando serviço...."
+        echo "Start service...."
         source /opt/environment
         /usr/bin/java -jar /opt/register-1.0.0.jar &
         ;;
  
     stop)
-        echo "Parando serviço..."
+        echo "Stop service..."
         pid=`pgrep -f register-1.0.0`
         if [ -z "$pid" ]
         then
-            echo "Systema não foi iniciado"
+            echo "Sytem wasn't started"
         else
             kill -9 "$pid"
         fi
         ;;
  
     restart)
-        echo "Reiniciando serviço..."
+        echo "Restart service..."
         # comando para reiniciar o serviço
         ;;
  

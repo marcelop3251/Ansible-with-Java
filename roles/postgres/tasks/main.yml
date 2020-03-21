@@ -1,5 +1,5 @@
 ---
-- name: 'Instala pacotes de dependia do postgres'
+- name: 'Install dependencies packages postgres'
   apt:
     name: "{{ item }}"
     state: latest
@@ -27,7 +27,7 @@
   notify:
     - restart postgres
   
-- name: Ensure the PostgreSQL service is running
+- name: 'Ensure the PostgreSQL service is running'
   service:
     name: postgresql
     state: started 

@@ -1,0 +1,65 @@
+---    
+  - name: 'add open jdk repository'
+    apt_repository:
+      repo: 'ppa:openjdk-r/ppa'
+      state: present
+      update_cache: yes
+    become: yes
+
+  - name: 'Install open jkd and git'
+    become: yes
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - openjdk-8-jdk
+      - git        
+
+  - name: 'set java 8 as main'
+    alternatives:
+      name: java
+      path: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 
+
+  - name: update certificate java
+    shell: update-ca-certificates -f
+    become: yes
+
+  - name: 'Clone project from github'
+    git:
+      repo: 'https://github.com/marcelop3251/kotlin-exposed-koin-javalin.git'
+      dest: "{{ installation_dir }}/register-service"
+    become: yes
+
+  - name: 'Build project'
+    shell: ./gradlew clean build
+    args:
+      chdir: "{{ installation_dir }}/register-service"
+    become: yes
+
+  - name: 'Copy jar for folder of instalation'
+    copy:
+      src: '{{ installation_dir }}/register-service/build/libs/register-1.0.0.jar'
+      dest: "{{ installation_dir }}/register-1.0.0.jar"
+      remote_src: yes
+    become: yes
+
+  - name: 'Copy file environment'
+    copy:
+      src: 'files/environment'
+      dest: "{{ installation_dir }}/environment"
+    become: yes      
+
+  - name: 'Copy script for folder of boot init.d'
+    copy:
+      src: 'files/register-service'
+      dest: '/etc/init.d/register-service'
+      mode: 0755
+    become: yes
+
+  - name: 'Config the system startup ro run script'
+    shell: 'update-rc.d register-service defaults'
+    become: yes
+
+  - name: 'Restarted machine'
+    become: yes
+    shell: 'reboot'  

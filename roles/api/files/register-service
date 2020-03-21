@@ -6,12 +6,18 @@ case "$1" in
     start)
         echo "Iniciando serviço...."
         source /opt/environment
-        /usr/bin/java -jar /opt/register-1.0-SNAPSHOT.jar
+        /usr/bin/java -jar /opt/register-1.0.0.jar &
         ;;
  
     stop)
         echo "Parando serviço..."
-        # comando para parar o serviço
+        pid=`pgrep -f register-1.0.0`
+        if [ -z "$pid" ]
+        then
+            echo "Systema não foi iniciado"
+        else
+            kill -9 "$pid"
+        fi
         ;;
  
     restart)

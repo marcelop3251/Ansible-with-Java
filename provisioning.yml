@@ -1,8 +1,8 @@
 ---
 - hosts: database
   roles:
-    - mysql
+    - postgres
 
 - hosts: applications
   roles:
-    - webserver
+    - api

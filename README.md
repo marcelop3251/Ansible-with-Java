@@ -11,11 +11,13 @@ We going to provisioning two machines, one for our DATABASE and one for our API.
 ### Getting Started
 
 - Install Ansible 2.9.6.
-Details of how to install can be found here https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+Details of how to install can be found here. https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 - Install Vagrant
-Details of how to install can be found here https://www.vagrantup.com/
+Details of how to install can be found here.
+https://www.vagrantup.com/
 - Install Virtual Box.
-Details of how to install can be found here https://www.virtualbox.org/
+Details of how to install can be found here.
+https://www.virtualbox.org/
 
 After of install clone this project at you machine local.
 
@@ -29,12 +31,12 @@ This command will create two machines one for DATABASE and one for API
 
 Now we going to config our machines.
 
-**ansible-playbook -vvv -i hosts provisioning.yml**
+**ansible-playbook -i hosts provisioning.yml**
 - It's can be a little time.
 
 At first time that you run this command, you will needed confirm access to virtual machine. Only type **yes**.
 
-First will be install postgres and after our application made at kotlin.
+First will be install postgres and after that our application made at kotlin.
 
 You can be details about our application [here](https://github.com/marcelop3251/kotlin-exposed-koin-javalin).
 
